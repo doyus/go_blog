@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"fmt"
 	"go_blog/model"
 	"go_blog/utils/errmsg"
 	"net/http"
@@ -20,16 +19,11 @@ func AddUser(c *gin.Context) {
 	var data model.User
 	_ = c.ShouldBindJSON(&data)
 	code = model.CheckUser(data.Username)
-	fmt.Println("data.Username", data.Username)
-	fmt.Println("code", code)
 	if code == errmsg.SUCCSE {
-		fmt.Println("创建用户1", code)
-		fmt.Println("创建用户2", &data)
 		model.CreateUser(&data)
 	}
 
 	if code == errmsg.ERROR_USERNAME_USED {
-		fmt.Println("用户已存在", code)
 		code = errmsg.ERROR_USERNAME_USED
 	}
 
@@ -63,7 +57,29 @@ func GetUsers(c *gin.Context) {
 }
 
 // 编辑用户
-func EditUser(c *gin.Context) {}
+func EditUser(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	var data model.User
+	c.ShouldBindJSON(&data)
+	code = model.CheckUser(data.Username)
+	if code == errmsg.SUCCSE {
+		model.EditUser(id, &data)
+	}
+	if code == errmsg.ERROR_USERNAME_USED {
+		c.Abort() //？？？
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
 
 // 删除用户
-func DeleteUser(c *gin.Context) {}
+func DeleteUser(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	code = model.DeleteUser(id)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
