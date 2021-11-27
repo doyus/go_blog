@@ -1,0 +1,2 @@
+time="2021-11-27 18:52:52" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=102 HosetName=LAPTOP-IQH097T5 Ip=127.0.0.1 Method=POST Path="/api/v1/upload?file" SpendTime="675 ms" Status=200
+time="2021-11-27 18:13:13" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=102 HosetName=LAPTOP-IQH097T5 Ip=127.0.0.1 Method=POST Path="/api/v1/upload?file" SpendTime="490 ms" Status=200
